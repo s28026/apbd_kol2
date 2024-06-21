@@ -23,6 +23,4 @@ public class Object
     [ForeignKey(nameof(WarehouseId))] public Warehouse Warehouse { get; set; } = null!;
 
     [ForeignKey(nameof(ObjectTypeId))] public ObjectType ObjectType { get; set; } = null!;
-
-    public ICollection<ObjectOwner> ObjectOwners { get; set; } = new HashSet<ObjectOwner>();
 }

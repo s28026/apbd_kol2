@@ -13,12 +13,16 @@ public class DbService : IDbService
         _context = context;
     }
     
-    public async Task<Owner> GetOwnerData(int ownerId)
+    public async Task<Owner?> GetOwnerData(int ownerId)
     {
         return await _context.Owners
-            .Include(o => o.ObjectOwners)
-            .ThenInclude(oo => oo.Object)
-            .Where(o => o.Id == ownerId)
-            .FirstAsync();
+            .Include(o=>o.ObjectOwners)
+            .ThenInclude(o=>o.Object)
+            .ThenInclude(o=>o.Warehouse)
+            .Include(o=>o.ObjectOwners)
+            .ThenInclude(o=>o.Object)
+            .ThenInclude(o=>o.ObjectType)
+            .Where(o=>o.Id==ownerId)
+            .FirstOrDefaultAsync();
     }
 }

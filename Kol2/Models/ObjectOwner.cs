@@ -12,5 +12,4 @@ public class ObjectOwner
     public int OwnerId { get; set; }
 
     [ForeignKey(nameof(ObjectId))] public Object Object { get; set; } = null!;
-    [ForeignKey(nameof(OwnerId))] public Owner Owner { get; set; } = null!;
 }

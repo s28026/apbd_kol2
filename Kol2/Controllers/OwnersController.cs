@@ -15,9 +15,26 @@ public class OwnersController : ControllerBase
     }
 
     [HttpGet("/{ownerId}")]
-    public async Task<Owner> GetOwnerData(int ownerId)
+    public async Task<IActionResult> GetOwnerData(int ownerId)
     {
-        return await _dbService.GetOwnerData(ownerId);
+        var owner =  await _dbService.GetOwnerData(ownerId);
+        if (owner is null)
+            return NotFound($"Owner with ID - {ownerId} not found");
+
+        return Ok(new
+        {
+            FirstName = owner.FirstName,
+            LastName = owner.LastName,
+            PhoneNumber = owner.PhoneNumber,
+            OwnerObjects    = owner.ObjectOwners.Select(o=>new
+            {
+                Id = o.ObjectId,
+                Width = o.Object.Width,
+                Height = o.Object.Height,
+                Type = o.Object.ObjectType.Name,
+                Warehouse = o.Object.Warehouse.Name,
+            })
+        });
     }
 
     [HttpPost]
